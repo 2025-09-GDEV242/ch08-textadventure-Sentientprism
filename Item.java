@@ -1,7 +1,8 @@
 import java.util.HashMap;
 import java.util.Set;
 /**
- * The Item class handles the functionality and distribution of items.
+ * The Item class handles the functionality of items. Items have a description,
+ * weight, and a take name.
  *
  * @author Edmund Dougherty
  * @version 11/7/25
@@ -10,14 +11,16 @@ public class Item
 {
     private String description;
     private String weight;
+    private String takeName; //this is what the player needs to enter to take it
 
     /**
      * Constructor for objects of class Item.
      */
-    public Item(String description, String weight)
+    public Item(String description, String weight, String takeName)
     {
        this.description = description;
        this.weight = weight;
+       this.takeName = takeName;
     }
     /**
      * Returns the description of this item.
@@ -35,13 +38,11 @@ public class Item
         return weight;
     }
     
-    public String getItemString() // come back to this
+    /**
+     * Returns this item's take name.
+     */
+    public String getTakeName()
     {
-        String returnString = "You see there is a: "; 
-        //Set<Item> theStuffThatIsInThisRoom = itemList.keySet();
-        //returnString += getItemDescription() + " " + getItemWeight();
-        //return returnString;
-        //this code is a load of dirty barnacles FIX IT!!!!
-        return returnString;
+        return takeName;
     }
 }

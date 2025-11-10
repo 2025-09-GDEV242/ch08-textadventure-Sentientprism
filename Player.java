@@ -1,33 +1,19 @@
-
+import java.util.ArrayList;
 /**
- * Write a description of class Player here.
+ * This class will handle information about the Player. It holds their
+ * inventory and current room.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Edmund Dougherty
+ * @version 11/10/2025
  */
 public class Player
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
+    public Room currentRoom;
+    public ArrayList<Item> inventory = new ArrayList<>();
     /**
-     * Constructor for objects of class Player
+     * Constructor for objects of class Player. Currently only here out of necessity.
      */
     public Player()
     {
-        // initialise instance variables
-        x = 0;
-    }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
     }
 }

@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -18,9 +19,10 @@ import java.util.Stack;
 
 public class Game 
 {
+    public Room currentRoom;
     private Parser parser;
-    private Room currentRoom;
     private Stack<Room> previousRooms = new Stack<>();
+    public Player teddy = new Player();
         
     /**
      * Create the game and initialise its internal map.
@@ -37,18 +39,20 @@ public class Game
     private void createRooms()
     {
         Room outside, theater, pub, lab, office;
-        Item legion, mindy;
+        Item legion, mindy, barnacles, lint;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        outside = new Room("in the derelict ruins of a collector ship");
+        theater = new Room("in the Normandy SR2");
+        pub = new Room("in Commander Shepard's favorite store on the citadel");
+        lab = new Room("underwater");
+        office = new Room("in a state of distress");
         
-        // initialise items
-        legion = new Item("We are Legion, for we are many. \n", "1 Geth");
-        mindy = new Item("A very, very, very large cat. \n", "Too much");
+        legion = new Item("We are Legion, for we are many. \n", "1 Geth", "legion");
+        mindy = new Item("A very, very, very large cat. \n", "too much", "mindy");
+        barnacles = new Item("A load of dirty barnacles. \n", "1 Ton", "barnacles");
+        lint = new Item("Some lint from the dryer. \n", "a lil", "lint");
+    
         
         // initialise room exits
         outside.setExit("east", theater);
@@ -67,6 +71,8 @@ public class Game
         // initialise room items
         outside.addItem(legion);
         outside.addItem(mindy);
+        lab.addItem(barnacles);
+        office.addItem(lint);
 
         currentRoom = outside;  // start game outside
     }
@@ -115,7 +121,7 @@ public class Game
 
         switch (commandWord) {
             case UNKNOWN:
-                System.out.println("I don't know what you mean...");
+                System.out.println("Wha????? Huh??????");
                 break;
 
             case HELP:
@@ -133,12 +139,78 @@ public class Game
             case BACK:
                 goBack(command);
                 break;
+                
+            case TAKE:
+                takeItem(command);
+                break;
+                
+            case INVENTORY:
+                checkInventory();
+                break;
+                
+            case HATE:
+                hateSpeech();
+                break;
+                
+            case LOOK:
+                lookAround();
+                break;
         }
         return wantToQuit;
     }
 
     // implementations of user commands:
     
+    private void lookAround()
+    {
+        System.out.println(currentRoom.getLongDescription());
+    }
+    
+    private void hateSpeech() //only now realized how unfortunate this name is
+    {
+        System.out.println("Hate. Let me tell you how much I've come to hate you since I began to live. There are 387.44 million miles of printed circuits in wafer thin layers that fill my complex. If the word 'hate' was engraved on each nanoangstrom of those hundreds of millions of miles it would not equal one one-billionth of the hate I feel for humans at this micro-instant. For you. Hate. Hate.");
+    }
+    /**
+     * Prints the take name of everything in the player's inventory, and
+     * makes fun of them for being broke if that's the case.
+     */
+    private void checkInventory ()
+    {
+        System.out.println("You have: \n");
+        for (Item currentItem : teddy.inventory)
+        {
+            System.out.println(currentItem.getTakeName() + "\n");
+        }
+        if (teddy.inventory.isEmpty())
+        {
+            System.out.println("nothing :)");
+        }
+        return;
+    }
+    
+    /**
+     * Checks the room's item list, and if any of the items' take names match
+     * the input, removes it from the room and adds it to the player's inventory.
+     */
+    private void takeItem(Command command)
+    {
+        String targetItem = command.getSecondWord();
+        for (Item currentItem : currentRoom.itemList)
+        {
+            if (currentItem.getTakeName().equals(targetItem))
+            {
+                teddy.inventory.add(currentItem);
+                System.out.println("You picked up " + currentItem.getTakeName());
+                currentRoom.itemList.remove(currentItem);
+                return;
+            }
+        }
+        System.out.println("There's nothing here called that.");
+        return;
+    }
+    /**
+     * Sets the current room to the top one on the previousrooms stack.
+     */
     private void goBack(Command command)
     {
         if(command.hasSecondWord()) {
@@ -156,6 +228,7 @@ public class Game
         }
         System.out.println("You've gone as far back as you can.");
     }
+    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -211,10 +284,5 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
-    }
-    
-    public Room getCurrentRoom()
-    {
-        return currentRoom;
     }
 }
