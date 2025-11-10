@@ -35,6 +35,7 @@ public class Game
     private void createRooms()
     {
         Room outside, theater, pub, lab, office;
+        Item legion;
       
         // create the rooms
         outside = new Room("outside the main entrance of the university");
@@ -42,6 +43,9 @@ public class Game
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
+        
+        // initialise items
+        legion = new Item("We are Legion, for we are many.", "1 Geth");
         
         // initialise room exits
         outside.setExit("east", theater);
@@ -56,6 +60,9 @@ public class Game
         lab.setExit("east", office);
 
         office.setExit("west", lab);
+        
+        // initialise room items
+        outside.addItem(legion);
 
         currentRoom = outside;  // start game outside
     }
@@ -178,5 +185,10 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+    
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
     }
 }

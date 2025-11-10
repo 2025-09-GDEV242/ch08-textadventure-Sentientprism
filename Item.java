@@ -1,15 +1,15 @@
-
+import java.util.HashMap;
+import java.util.Set;
 /**
- * Write a description of class Item here.
+ * The Item class handles the functionality and distribution of items.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Edmund Dougherty
+ * @version 11/7/25
  */
 public class Item
 {
-    // instance variables - replace the example below with your own
-    public String description;
-    public String weight;
+    private String description;
+    private String weight;
 
     /**
      * Constructor for objects of class Item.
@@ -33,5 +33,15 @@ public class Item
     public String getItemWeight()
     {
         return weight;
+    }
+    
+    public String getItemString() // come back to this
+    {
+        String returnString = "You see there is a: "; 
+        //Set<Item> theStuffThatIsInThisRoom = itemList.keySet();
+        //returnString += getItemDescription() + " " + getItemWeight();
+        //return returnString;
+        //this code is a load of dirty barnacles FIX IT!!!!
+        return returnString;
     }
 }
