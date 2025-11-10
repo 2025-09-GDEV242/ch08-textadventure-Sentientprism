@@ -38,7 +38,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room outside, theater, pub, lab, office, space, mars, uranus;
         Item legion, mindy, barnacles, lint;
       
         // create the rooms
@@ -47,6 +47,9 @@ public class Game
         pub = new Room("in Commander Shepard's favorite store on the citadel");
         lab = new Room("underwater");
         office = new Room("in a state of distress");
+        space = new Room("the cold vastness of space");
+        mars = new Room("the pleasant temperate environment of mars");
+        uranus = new Room("i'm not saying that planet's name");
         
         legion = new Item("We are Legion, for we are many. \n", "1 Geth", "legion");
         mindy = new Item("A very, very, very large cat. \n", "too much", "mindy");
@@ -58,6 +61,15 @@ public class Game
         outside.setExit("east", theater);
         outside.setExit("south", lab);
         outside.setExit("west", pub);
+        outside.setExit("north", space);
+        
+        space.setExit("south", outside);
+        space.setExit("north", mars);
+        
+        mars.setExit("south", space);
+        mars.setExit("north", uranus);
+        
+        uranus.setExit("south", mars);
 
         theater.setExit("west", outside);
 
