@@ -155,11 +155,30 @@ public class Game
             case LOOK:
                 lookAround();
                 break;
+            case DROP:
+                dropItem(command);
+                break;
         }
         return wantToQuit;
     }
 
     // implementations of user commands:
+    
+    private void dropItem(Command command)
+    {
+        String targetItem = command.getSecondWord();
+         for (Item currentItem : teddy.inventory)
+        {
+            if (currentItem.getTakeName().equals(targetItem))
+            {
+                teddy.inventory.remove(currentItem);
+                System.out.println("You dropped " + currentItem.getTakeName());
+                currentRoom.itemList.add(currentItem);
+                return;
+            }
+        }
+        System.out.println("You don't have that.");
+    }
     
     private void lookAround()
     {
@@ -170,6 +189,7 @@ public class Game
     {
         System.out.println("Hate. Let me tell you how much I've come to hate you since I began to live. There are 387.44 million miles of printed circuits in wafer thin layers that fill my complex. If the word 'hate' was engraved on each nanoangstrom of those hundreds of millions of miles it would not equal one one-billionth of the hate I feel for humans at this micro-instant. For you. Hate. Hate.");
     }
+    
     /**
      * Prints the take name of everything in the player's inventory, and
      * makes fun of them for being broke if that's the case.
