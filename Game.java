@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private List<Room> previousRooms = new ArrayList<>();
         
     /**
      * Create the game and initialise its internal map.
@@ -35,7 +38,7 @@ public class Game
     private void createRooms()
     {
         Room outside, theater, pub, lab, office;
-        Item legion;
+        Item legion, mindy;
       
         // create the rooms
         outside = new Room("outside the main entrance of the university");
@@ -45,7 +48,8 @@ public class Game
         office = new Room("in the computing admin office");
         
         // initialise items
-        legion = new Item("We are Legion, for we are many.", "1 Geth");
+        legion = new Item("We are Legion, for we are many. \n", "1 Geth");
+        mindy = new Item("A very, very, very large cat. \n", "Too much");
         
         // initialise room exits
         outside.setExit("east", theater);
@@ -63,6 +67,7 @@ public class Game
         
         // initialise room items
         outside.addItem(legion);
+        outside.addItem(mindy);
 
         currentRoom = outside;  // start game outside
     }
@@ -125,12 +130,29 @@ public class Game
             case QUIT:
                 wantToQuit = quit(command);
                 break;
+                
+            case BACK:
+                goBack();
+                break;
         }
         return wantToQuit;
     }
 
     // implementations of user commands:
 
+    
+    private void goBack()
+    {
+        if (previousRooms.size() > 0)
+        {
+        Room nextRoom = previousRooms.get(previousRooms.size()-1);
+        previousRooms.remove(previousRooms.size()-1);
+        currentRoom = nextRoom;
+        System.out.println(currentRoom.getLongDescription());
+        return;
+        }
+        System.out.println("You've gone as far back as you can.");
+    }
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -166,6 +188,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            previousRooms.add(currentRoom);
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }

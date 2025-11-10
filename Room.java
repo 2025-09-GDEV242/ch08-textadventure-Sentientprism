@@ -70,7 +70,7 @@ public class Room
     public String getLongDescription()
     {
         return "You are " + description + ".\n" + getExitString() 
-        + "/n" + "You see: " + printAllItems();
+        + "\n" + "You see: " + printAllItems();
     }
     
     private String printAllItems()
